@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+          <link rel="stylesheet" type="text/css" href="ml.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="moviese">🎬 Movie Search</h1>
+    <div class="container">
+         <div id="moviepage">    
+        <input type="text" id="searchip" placeholder="Enter Movie Name">
+      
+        <button onclick="searchMovie()">Search</button>
+          </div>
+        </div>
+     <ul id="movieList"></ul>
+
+     <script>
+         document.addEventListener("DOMContentLoaded", function() {
+      const apikey="ad58ce85";
+        const modal = document.getElementById("movieModal");
+       const closeButton = document.querySelector(".close");
+        const modalDetails = document.getElementById("modalDetails");
+
+      async function searchMovie() {
+        const searchTerm = document.getElementById("searchip").value.trim();
+        const url = `https://www.omdbapi.com/?apikey=${apikey}&s=${searchTerm}`;
+
+        try {
+           const response = await fetch(url)
+           const data = await response.json()
+
+           const movieList = document.getElementById("movieList");
+           movieList.innerHTML="";
+
+           if(data.Response ==="True") {
+              data.Search.forEach(movie=> {
+                const li = document.createElement("li");
+                li.classList.add("movie-card")
+               
+                li.innerHTML=`<img src="${movie.Poster!=="N/A"? movie.Poster:'https://cdn3.iconfinder.com/data/icons/file-and-folder-outline-icons-set/144/Image_Error-512.png'}" alt="${movie.Title}">
+                 <h3>${movie.Title}</h3>  <p>Year: ${movie.Year}</p>`;
+              
+                 movieList.appendChild(li);
+                 li.setAttribute("data-id", movie.imdbID);
+
+              });
+           }
+           else {
+                 movieList.innerHTML = `<li>No movies found for "${searchTerm}"</li>`;
+           }
+        }
+        catch(error) {
+          console.error("Error Fetching Movies",error)
+        }
+      }
+
+document.getElementById("movieList").addEventListener("click", async (e) => {
+  const card = e.target.closest(".movie-card");
+  if (!card) return;
+
+  const imdbID = card.getAttribute("data-id");
+  const url = `https://www.omdbapi.com/?apikey=${apikey}&i=${imdbID}&plot=full`;
+
+  try {
+    const response = await fetch(url);
+    const movie = await response.json();
+
+    if (movie.Response === "True") {
+      const modal = document.getElementById("movieModal");
+      const details = document.getElementById("modalDetails");
+      const closeButton = document.querySelector(".close");
+
+      details.innerHTML = `
+        <h2>${movie.Title} (${movie.Year})</h2>
+        <img src="${movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/200x300"}" style="width:200px;">
+        <p><strong>Genre:</strong> ${movie.Genre}</p>
+        <p><strong>Director:</strong> ${movie.Director}</p>
+        <p><strong>Actors:</strong> ${movie.Actors}</p>
+        <p><strong>Plot:</strong> ${movie.Plot}</p>
+        <p><strong>IMDB Rating:</strong> ${movie.imdbRating}</p>
+      `;
+
+      modal.style.display = "flex";
+    }
+  } catch (err) {
+    console.error("Error fetching details", err);
+  }
+});
+
+ closeButton.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+   document.querySelector("button").addEventListener("click", searchMovie);
+      });
+
+
+      document.getElementById("moviese").addEventListener("click", () => {
+        location.reload();
+    });
+    
+     </script>
+
+
+<div id="movieModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id="modalDetails"></div>
+  </div>
+</div>
+
+
+</body>
+</html>

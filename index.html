@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <link rel="stylesheet" type="text/css" href="index.css">
+    <title>MovieList</title>
+</head>
+<body>
+
+      <div class="reel">
+        <img src="https://i.pinimg.com/736x/ae/8c/21/ae8c21bc78b35923cdd54ef5868915ef.jpg" alt="Movie 1" >
+        <img src="https://static0.colliderimages.com/wordpress/wp-content/uploads/2021/11/alice-in-borderland-cast.jpg" alt="Movie 2" >
+        <img src="https://images.ctfassets.net/4cd45et68cgf/6xlqqImDdAfzWKIlaScQxm/7def051f35d6668bd6e6227e354ecc01/EN-US_SG-S2_Primary_Main_RoundandRound-Safe_Vertical_27x40_RGB_PRE.jpg?w=1200" alt="Movie 3">
+        <img src="https://m.media-amazon.com/images/I/818tLZ4J13S.jpg" alt="Movie 4">
+        <img src="https://m.media-amazon.com/images/S/pv-target-images/b9751219c625ca6b7d44e3dd3f3d33194099119893c2d5f147c350cd20291bd6.jpg" alt="Movie 5">
+        <img src="https://wallpapersok.com/images/hd/k-g-f-2-movie-poster-2von5vqybbbu66ug.jpg" alt="Movie 6">
+
+         <img src="https://i.pinimg.com/736x/ae/8c/21/ae8c21bc78b35923cdd54ef5868915ef.jpg" alt="Movie 1" >
+        <img src="https://static0.colliderimages.com/wordpress/wp-content/uploads/2021/11/alice-in-borderland-cast.jpg" alt="Movie 2" >
+        <img src="https://images.ctfassets.net/4cd45et68cgf/6xlqqImDdAfzWKIlaScQxm/7def051f35d6668bd6e6227e354ecc01/EN-US_SG-S2_Primary_Main_RoundandRound-Safe_Vertical_27x40_RGB_PRE.jpg?w=1200" alt="Movie 3">
+        <img src="https://m.media-amazon.com/images/I/818tLZ4J13S.jpg" alt="Movie 4">
+        <img src="https://m.media-amazon.com/images/S/pv-target-images/b9751219c625ca6b7d44e3dd3f3d33194099119893c2d5f147c350cd20291bd6.jpg" alt="Movie 5">
+        <img src="https://wallpapersok.com/images/hd/k-g-f-2-movie-poster-2von5vqybbbu66ug.jpg" alt="Movie 6">
+
+         <img src="https://i.pinimg.com/736x/ae/8c/21/ae8c21bc78b35923cdd54ef5868915ef.jpg" alt="Movie 1" >
+        <img src="https://static0.colliderimages.com/wordpress/wp-content/uploads/2021/11/alice-in-borderland-cast.jpg" alt="Movie 2" >
+        <img src="https://images.ctfassets.net/4cd45et68cgf/6xlqqImDdAfzWKIlaScQxm/7def051f35d6668bd6e6227e354ecc01/EN-US_SG-S2_Primary_Main_RoundandRound-Safe_Vertical_27x40_RGB_PRE.jpg?w=1200" alt="Movie 3">
+        <img src="https://m.media-amazon.com/images/I/818tLZ4J13S.jpg" alt="Movie 4">
+        <img src="https://m.media-amazon.com/images/S/pv-target-images/b9751219c625ca6b7d44e3dd3f3d33194099119893c2d5f147c350cd20291bd6.jpg" alt="Movie 5">
+        <img src="https://wallpapersok.com/images/hd/k-g-f-2-movie-poster-2von5vqybbbu66ug.jpg" alt="Movie 6">
+    </div>
+
+    <div class="container" id="loginpage">
+         <div>
+            <h1 class="main-heading">Welcome to Movie DB</h1>
+     <div class="card">   
+    <h2>Login</h2>
+        <label for="uemail">Email:</label>
+        <input type="text" id="uemail" placeholder="Enter your email" name="mail" required>
+        <br>
+        <br>
+        <label for="pass">Password:</label>
+         <input type="text" id="pass" placeholder="Enter your password" name="upass" required>
+         <br>
+         <br>
+          <div class="button-container">
+        <button onclick="login()">Login</button>
+        <p id="errormsg" style="color: red;"></p>
+        </div>
+        </div>
+        </div>
+        </div>
+     </div>
+
+
+    <script>
+      
+
+      async function login() {
+        const email = document.getElementById("uemail").value.trim();
+        const password = document.getElementById("pass").value.trim();
+        const errorMsg = document.getElementById("errormsg");
+
+        try {
+
+          const res = await fetch("users.json")
+          const users = await res.json()
+
+          const user = users.find(u => u.email===email && u.password===password);
+
+          if(user) {
+          window.location.href="ml.html"
+          } else {
+            errorMsg.textContent = "invalid email or password";
+          }
+
+        }
+        catch(error) {
+          console.error("error loading json:",error)
+        }
+      }
+    </script>
+
+
+
+
+
+
+
+
+  
+</body>
+</html>
